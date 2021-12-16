@@ -1,17 +1,30 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub-Pages
+
 on:
   push:
     branches:
-      - main
+      - master
+
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Check Out
         uses: actions/checkout@v2.3.1
+        with:
+          persist-credentials: false
 
-      - name: Installing dependencies
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      - name: Installing Dependencies
         run: npm ci
+
+      - name: Linting
+        run: npm test
 
       - name: Building
         run: npm run build
@@ -20,5 +33,8 @@ jobs:
         uses: komnatnaya.github.io/public-test2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
           FOLDER: ./build
+          BRANCH: gh-pages
+          SINGLE_COMMIT: false
+
+
