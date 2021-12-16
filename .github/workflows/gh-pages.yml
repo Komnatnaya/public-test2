@@ -17,7 +17,7 @@ jobs:
         run: npm run build
 
       - name: Deploy
-        uses: komnatnaya.github.io/public-test
+        uses: komnatnaya.github.io/public-test2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
